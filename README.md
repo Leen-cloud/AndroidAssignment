@@ -6,13 +6,13 @@ This is a simple Todo application which use the latest android development techn
 
 **Home Screen:** This screen fetches and displays a list of todos from a remote Api and also store the data in room database and second time it get the data from the local db directly without calling the api.
 
-**Detail Screen:** It shows detailed information of a selected todo item on home screen.
+**Detail Screen:** Tap on any todo item to navigate to the Detail screen and view more information about the selected item.
 
 **Architecture:** MVVM with clean architecture.
 
 **Test Cases:** Test cases are also covered for view model and repository.
 
-**Technology used:** Kotlin, Compose, state/cold flow coroutines, Retrofit, Dagger Hilt, Mockito library.
+**Technology used:** Kotlin programming language, Jetpack Compose, State/cold flow coroutines, Retrofit, Dagger Hilt, Mockito library.
 
 
 

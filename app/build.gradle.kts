@@ -1,6 +1,9 @@
 plugins {
+    kotlin("kapt")
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -55,6 +58,32 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
+    implementation (libs.androidx.core.ktx.v1100)
+    implementation (libs.ui )
+    implementation (libs.androidx.material )
+    implementation (libs.ui.tooling.preview )
+    implementation (libs.androidx.lifecycle.viewmodel.compose )
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
+    implementation (libs.retrofit )
+    implementation (libs.converter.gson)
+    //hilt
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.android.compose)
+    implementation(libs.androidx.junit.ktx)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    kapt(libs.hilt.compiler)
+    //room
+    implementation (libs.androidx.room.runtime)
+    kapt (libs.androidx.room.compiler)
+    implementation (libs.androidx.room.ktx )
+    // Mockito
+    testImplementation (libs.mockito.core)
+    testImplementation (libs.mockito.kotlin)
+    testImplementation (libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.core.testing)
+
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
