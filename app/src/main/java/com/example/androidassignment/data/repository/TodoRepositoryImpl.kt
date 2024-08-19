@@ -25,11 +25,6 @@ class TodoRepositoryImpl @Inject constructor(
             return TodoMapper.toDomainList(response)
         }
     }
-
-    override suspend fun saveTodos() {
-        val response = apiService.getTodos()
-        todoDao.insertTodos(response.map { it.toEntity() })
-    }
 }
 
 
