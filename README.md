@@ -8,9 +8,9 @@ This is a simple Todo application which use the latest android development techn
 
 **Detail Screen:** Tap on any todo item to navigate to the Detail screen and view more information about the selected item.
 
-**Architecture:** MVVM with clean architecture.
+**Architecture:** MVVM, MVI, clean architecture.
 
-**Test Cases:** Test cases are also covered for view model and repository.
+**Test Cases:** Test cases are covered for View model, UseCase and repository.
 
 **Technology used:** Kotlin programming language, Jetpack Compose, State/cold flow coroutines, Retrofit, Dagger Hilt, Mockito library.
 
@@ -18,8 +18,14 @@ This is a simple Todo application which use the latest android development techn
 
 **Note:** Kindly test this application using real time device to test the entire flow.
 
+![Todo_list](https://github.com/user-attachments/assets/4afd9a64-7c02-4662-8c48-c9aad4d46e56)
 
-![TodoList](https://github.com/user-attachments/assets/882757f3-f72a-4c2f-8918-03d15d2463af)
 
-![TodoDetailScreen](https://github.com/user-attachments/assets/d14720f5-b669-4ee0-aaae-1d6c3a8ee737)
+
+![DetailScreen](https://github.com/user-attachments/assets/a0e0a9d6-c30d-4a1b-88d3-19ec4dbc4610)
+
+
+
+
+
 
