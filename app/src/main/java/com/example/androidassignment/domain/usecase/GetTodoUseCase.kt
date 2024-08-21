@@ -12,10 +12,11 @@ class GetTodoUseCase @Inject constructor(
 ) {
 
     operator fun invoke(): Flow<Resource<List<Todo>>> = flow {
+        emit(Resource.Loading())
         try {
-            emit(Resource.Loading())
-            val todos = todoRepository.getTodos()
-            emit(Resource.Success(todos))
+            todoRepository.getTodos().collect { todos ->
+                emit(Resource.Success(todos))
+            }
         } catch (e: Exception) {
             emit(Resource.Error(e.message ?: "Unknown error"))
         }

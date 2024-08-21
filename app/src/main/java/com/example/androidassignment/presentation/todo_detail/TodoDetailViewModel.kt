@@ -12,14 +12,23 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+sealed class TodoDetailIntent {
+    data class LoadTodoDetail(val id: Int) : TodoDetailIntent()
+}
 
 @HiltViewModel
 class TodoDetailViewModel @Inject constructor(
     private val getTodoDetailUseCase: GetTodoDetailUseCase
 ) : ViewModel() {
 
-    private val _todoDetailState = MutableStateFlow<Resource<Todo>>(Resource.Loading())
-    val todoDetailState: StateFlow<Resource<Todo>> = _todoDetailState.asStateFlow()
+    private val _viewState = MutableStateFlow<Resource<Todo>>(Resource.Loading())
+    val viewState: StateFlow<Resource<Todo>> = _viewState.asStateFlow()
+
+    fun processIntent(intent: TodoDetailIntent) {
+        when (intent) {
+            is TodoDetailIntent.LoadTodoDetail -> fetchTodoDetail(intent.id)
+        }
+    }
 
     fun fetchTodoDetail(id: Int) {
         viewModelScope.launch {
@@ -30,16 +39,14 @@ class TodoDetailViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        _todoDetailState.value = state
+                        _viewState.value = state
                     }
 
                     is Resource.Error -> {
-                        _todoDetailState.value = state
-
+                        _viewState.value = state
                     }
                 }
             }
         }
     }
 }
-

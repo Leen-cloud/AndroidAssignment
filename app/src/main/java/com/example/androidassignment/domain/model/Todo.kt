@@ -6,4 +6,11 @@ data class Todo(
     val title: String,
     val completed: Boolean
 )
-
+fun Todo.toDomain(): Todo {
+    return Todo(
+        id = this.id,
+        userId = this.userId,
+        title = this.title,
+        completed = this.completed
+    )
+}

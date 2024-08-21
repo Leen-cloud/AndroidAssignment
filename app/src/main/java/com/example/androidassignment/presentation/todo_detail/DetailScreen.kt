@@ -13,9 +13,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,10 +29,17 @@ import com.example.androidassignment.domain.model.Resource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(viewModel: TodoDetailViewModel = hiltViewModel(), todoId: Int) {
-    val state by viewModel.todoDetailState.collectAsState()
+    val viewState by viewModel.viewState.collectAsState()
+    val backgroundColor by remember { mutableStateOf(Color.White) }
 
     LaunchedEffect(todoId) {
-        viewModel.fetchTodoDetail(todoId)
+        viewModel.processIntent(TodoDetailIntent.LoadTodoDetail(todoId))
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            println("disposed")
+        }
     }
 
     Scaffold(
@@ -37,40 +47,48 @@ fun DetailScreen(viewModel: TodoDetailViewModel = hiltViewModel(), todoId: Int) 
             CenterAlignedTopAppBar(
                 title = { Text("Detail Screen") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFF6200EE),
+                    containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = Color.White
                 )
             )
         }
     ) { innerPadding ->
-        when(state) {
+        when (viewState) {
             is Resource.Loading -> {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White),
+                        .background(backgroundColor),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator()
                 }
             }
+
             is Resource.Error -> {
-                Text("Error: ${state as Resource.Error}", modifier = Modifier.padding(innerPadding))
+                Text(
+                    "Error: ${(viewState as Resource.Error).message}",
+                    modifier = Modifier.padding(innerPadding)
+                )
             }
-            is Resource.Success-> {
+
+            is Resource.Success -> {
                 Column(
                     modifier = Modifier
-                        .padding(20.dp)
+                        .padding(4.dp)
                         .padding(innerPadding)
                 ) {
-                    Text(
-                        text = "Title: ${state.data?.title}",
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                    Text(
-                        text = "Completed: ${state.data?.completed}",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                    val todo = viewState.data
+                    todo?.let {
+                        Text(
+                            text = "Title: ${todo.title}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Completed: ${todo.completed}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
             }
         }

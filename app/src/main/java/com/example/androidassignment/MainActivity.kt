@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.androidassignment.presentation.todo_detail.DetailScreen
 import com.example.androidassignment.presentation.todolist.HomeScreen
-
+import com.example.androidassignment.ui.theme.AssignmentApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,20 +25,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TodoApp() {
     val navController = rememberNavController()
-
-    NavHost(navController, startDestination = "home") {
-        composable("home") {
-            HomeScreen(
-                onItemClick = { id -> navController.navigate("detail/$id") }
-            )
-        }
-        composable("detail/{id}") { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id")?.toInt() ?: 0
-            DetailScreen(todoId = id)
+    AssignmentApplicationTheme {
+        NavHost(navController, startDestination = "home") {
+            composable("home") {
+                HomeScreen(
+                    onItemClick = { id -> navController.navigate("detail/$id") }
+                )
+            }
+            composable("detail/{id}") { backStackEntry ->
+                val id = backStackEntry.arguments?.getString("id")?.toInt() ?: 0
+                DetailScreen(todoId = id)
+            }
         }
     }
 }
-
-
-
-

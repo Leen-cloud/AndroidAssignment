@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidassignment.domain.model.Resource
 import com.example.androidassignment.domain.model.Todo
 import com.example.androidassignment.domain.usecase.GetTodoUseCase
+import com.example.androidassignment.presentation.TodoIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,11 +16,13 @@ class TodoViewModel @Inject constructor(
     private val getTodoUseCase: GetTodoUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<Resource<List<Todo>>>(Resource.Loading())
-    val state: StateFlow<Resource<List<Todo>>> get() = _state
+    private val _viewState = MutableStateFlow<Resource<List<Todo>>>(Resource.Loading())
+    val viewState: StateFlow<Resource<List<Todo>>> = _viewState
 
-    init {
-        fetchTodos()
+    fun processIntent(intent: TodoIntent) {
+        when (intent) {
+            is TodoIntent.LoadTodos -> fetchTodos()
+        }
     }
 
     fun fetchTodos() {
@@ -31,11 +33,11 @@ class TodoViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        _state.value = result
+                        _viewState.value = result
                     }
 
                     is Resource.Error -> {
-                        _state.value = result
+                        _viewState.value = result
                     }
                 }
             }
